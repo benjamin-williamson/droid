@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/productsave"
+        android:title="Save Vacation"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/productdelete"
+        android:title="Delete Vacation"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/shareVacation"
+        android:title="Share Vacation"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/alertStart"
+        android:title="Set Start Alert"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/alertEnd"
+        android:title="Set End Alert"
+        app:showAsAction="never" />
+</menu>
