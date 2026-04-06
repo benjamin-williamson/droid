@@ -1,4 +1,4 @@
-package net.decusatis.mybicycleshopflaming.Activities;
+package net.decusatis.vacationscheduler.Activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,25 +10,25 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import net.decusatis.mybicycleshopflaming.Entities.Part;
-import net.decusatis.mybicycleshopflaming.R;
+import net.decusatis.vacationscheduler.Entities.Excursion;
+import net.decusatis.vacationscheduler.R;
 
 import java.util.List;
 
-public class PartAdapter extends RecyclerView.Adapter<PartAdapter.PartViewHolder> {
+public class ExcursionAdapter extends RecyclerView.Adapter<ExcursionAdapter.ExcursionViewHolder> {
 
-    class PartViewHolder extends RecyclerView.ViewHolder {
+    class ExcursionViewHolder extends RecyclerView.ViewHolder {
         private final TextView titleView;
         private final TextView dateView;
 
-        private PartViewHolder(View itemView) {
+        private ExcursionViewHolder(View itemView) {
             super(itemView);
             titleView = itemView.findViewById(R.id.textView2);
             dateView = itemView.findViewById(R.id.textView3);
             itemView.setOnClickListener(view -> {
                 int position = getAdapterPosition();
-                final Part current = mExcursions.get(position);
-                Intent intent = new Intent(context, PartDetails.class);
+                final Excursion current = mExcursions.get(position);
+                Intent intent = new Intent(context, ExcursionDetails.class);
                 intent.putExtra("id", current.getExcursionID());
                 intent.putExtra("name", current.getTitle());
                 intent.putExtra("excursionDate", current.getExcursionDate());
@@ -40,13 +40,13 @@ public class PartAdapter extends RecyclerView.Adapter<PartAdapter.PartViewHolder
         }
     }
 
-    private List<Part> mExcursions;
+    private List<Excursion> mExcursions;
     private final Context context;
     private final LayoutInflater mInflater;
     private final String vacationStartDate;
     private final String vacationEndDate;
 
-    public PartAdapter(Context context, String vacationStartDate, String vacationEndDate) {
+    public ExcursionAdapter(Context context, String vacationStartDate, String vacationEndDate) {
         mInflater = LayoutInflater.from(context);
         this.context = context;
         this.vacationStartDate = vacationStartDate;
@@ -55,15 +55,15 @@ public class PartAdapter extends RecyclerView.Adapter<PartAdapter.PartViewHolder
 
     @NonNull
     @Override
-    public PartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ExcursionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = mInflater.inflate(R.layout.part_list_item, parent, false);
-        return new PartViewHolder(itemView);
+        return new ExcursionViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PartViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ExcursionViewHolder holder, int position) {
         if (mExcursions != null) {
-            Part current = mExcursions.get(position);
+            Excursion current = mExcursions.get(position);
             holder.titleView.setText(current.getTitle());
             holder.dateView.setText(current.getExcursionDate());
         } else {
@@ -72,7 +72,7 @@ public class PartAdapter extends RecyclerView.Adapter<PartAdapter.PartViewHolder
         }
     }
 
-    public void setParts(List<Part> excursions) {
+    public void setExcursions(List<Excursion> excursions) {
         mExcursions = excursions;
         notifyDataSetChanged();
     }

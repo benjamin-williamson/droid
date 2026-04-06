@@ -1,4 +1,4 @@
-package net.decusatis.mybicycleshopflaming.Activities;
+package net.decusatis.vacationscheduler.Activities;
 
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
@@ -14,9 +14,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import net.decusatis.mybicycleshopflaming.Database.Repository;
-import net.decusatis.mybicycleshopflaming.Entities.Part;
-import net.decusatis.mybicycleshopflaming.R;
+import net.decusatis.vacationscheduler.Database.Repository;
+import net.decusatis.vacationscheduler.Entities.Excursion;
+import net.decusatis.vacationscheduler.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,7 +25,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class PartDetails extends AppCompatActivity {
+public class ExcursionDetails extends AppCompatActivity {
     int excursionID;
     int vacationID;
     String vacationStartDate;
@@ -69,7 +69,7 @@ public class PartDetails extends AppCompatActivity {
             if (!info.isEmpty()) {
                 try { calDate.setTime(sdf.parse(info)); } catch (ParseException e) { e.printStackTrace(); }
             }
-            new DatePickerDialog(PartDetails.this, dateListener,
+            new DatePickerDialog(ExcursionDetails.this, dateListener,
                     calDate.get(Calendar.YEAR), calDate.get(Calendar.MONTH),
                     calDate.get(Calendar.DAY_OF_MONTH)).show();
         });
@@ -132,14 +132,14 @@ public class PartDetails extends AppCompatActivity {
                 return true;
             }
 
-            Part excursion;
+            Excursion excursion;
             if (excursionID == -1) {
-                List<Part> all = repository.getAllExcursions();
+                List<Excursion> all = repository.getAllExcursions();
                 excursionID = all.isEmpty() ? 1 : all.get(all.size() - 1).getExcursionID() + 1;
-                excursion = new Part(excursionID, title, dateStr, vacationID);
+                excursion = new Excursion(excursionID, title, dateStr, vacationID);
                 repository.insert(excursion);
             } else {
-                excursion = new Part(excursionID, title, dateStr, vacationID);
+                excursion = new Excursion(excursionID, title, dateStr, vacationID);
                 repository.update(excursion);
             }
             Toast.makeText(this, "Excursion saved", Toast.LENGTH_SHORT).show();
@@ -151,10 +151,10 @@ public class PartDetails extends AppCompatActivity {
                 Toast.makeText(this, "Nothing to delete", Toast.LENGTH_SHORT).show();
                 return true;
             }
-            Part toDelete = null;
-            for (Part p : repository.getAllExcursions()) {
-                if (p.getExcursionID() == excursionID) {
-                    toDelete = p;
+            Excursion toDelete = null;
+            for (Excursion e : repository.getAllExcursions()) {
+                if (e.getExcursionID() == excursionID) {
+                    toDelete = e;
                     break;
                 }
             }
@@ -176,9 +176,9 @@ public class PartDetails extends AppCompatActivity {
             try {
                 sdf.setLenient(false);
                 Date date = sdf.parse(dateStr);
-                Intent intent = new Intent(PartDetails.this, MyReceiver.class);
+                Intent intent = new Intent(ExcursionDetails.this, MyReceiver.class);
                 intent.putExtra("key", title);
-                PendingIntent sender = PendingIntent.getBroadcast(PartDetails.this,
+                PendingIntent sender = PendingIntent.getBroadcast(ExcursionDetails.this,
                         ++MainActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
                 AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 alarmManager.set(AlarmManager.RTC_WAKEUP, date.getTime(), sender);

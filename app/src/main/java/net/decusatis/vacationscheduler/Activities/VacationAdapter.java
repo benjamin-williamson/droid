@@ -1,4 +1,4 @@
-package net.decusatis.mybicycleshopflaming.Activities;
+package net.decusatis.vacationscheduler.Activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,23 +10,23 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import net.decusatis.mybicycleshopflaming.Entities.Product;
-import net.decusatis.mybicycleshopflaming.R;
+import net.decusatis.vacationscheduler.Entities.Vacation;
+import net.decusatis.vacationscheduler.R;
 
 import java.util.List;
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
+public class VacationAdapter extends RecyclerView.Adapter<VacationAdapter.VacationViewHolder> {
 
-    class ProductViewHolder extends RecyclerView.ViewHolder {
-        private final TextView productItemView;
+    class VacationViewHolder extends RecyclerView.ViewHolder {
+        private final TextView vacationItemView;
 
-        private ProductViewHolder(View itemView) {
+        private VacationViewHolder(View itemView) {
             super(itemView);
-            productItemView = itemView.findViewById(R.id.textView);
+            vacationItemView = itemView.findViewById(R.id.textView);
             itemView.setOnClickListener(view -> {
                 int position = getAdapterPosition();
-                final Product current = mVacations.get(position);
-                Intent intent = new Intent(context, ProductDetails.class);
+                final Vacation current = mVacations.get(position);
+                Intent intent = new Intent(context, VacationDetails.class);
                 intent.putExtra("id", current.getVacationID());
                 intent.putExtra("name", current.getTitle());
                 intent.putExtra("hotel", current.getHotel());
@@ -37,33 +37,33 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         }
     }
 
-    private List<Product> mVacations;
+    private List<Vacation> mVacations;
     private final Context context;
     private final LayoutInflater mInflater;
 
-    public ProductAdapter(Context context) {
+    public VacationAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
         this.context = context;
     }
 
     @NonNull
     @Override
-    public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public VacationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = mInflater.inflate(R.layout.product_list_item, parent, false);
-        return new ProductViewHolder(itemView);
+        return new VacationViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull VacationViewHolder holder, int position) {
         if (mVacations != null) {
-            Product current = mVacations.get(position);
-            holder.productItemView.setText(current.getTitle());
+            Vacation current = mVacations.get(position);
+            holder.vacationItemView.setText(current.getTitle());
         } else {
-            holder.productItemView.setText("No vacations");
+            holder.vacationItemView.setText("No vacations");
         }
     }
 
-    public void setProducts(List<Product> vacations) {
+    public void setVacations(List<Vacation> vacations) {
         mVacations = vacations;
         notifyDataSetChanged();
     }

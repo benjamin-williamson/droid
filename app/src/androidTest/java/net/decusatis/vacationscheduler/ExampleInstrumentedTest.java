@@ -1,4 +1,4 @@
-package net.decusatis.mybicycleshopflaming;
+package net.decusatis.vacationscheduler;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("net.decusatis.mybicycleshopflaming", appContext.getPackageName());
+        assertEquals("net.decusatis.vacationscheduler", appContext.getPackageName());
     }
 }

@@ -1,4 +1,4 @@
-package net.decusatis.mybicycleshopflaming.Activities;
+package net.decusatis.vacationscheduler.Activities;
 
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
@@ -18,10 +18,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import net.decusatis.mybicycleshopflaming.Database.Repository;
-import net.decusatis.mybicycleshopflaming.Entities.Part;
-import net.decusatis.mybicycleshopflaming.Entities.Product;
-import net.decusatis.mybicycleshopflaming.R;
+import net.decusatis.vacationscheduler.Database.Repository;
+import net.decusatis.vacationscheduler.Entities.Excursion;
+import net.decusatis.vacationscheduler.Entities.Vacation;
+import net.decusatis.vacationscheduler.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,14 +31,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class ProductDetails extends AppCompatActivity {
+public class VacationDetails extends AppCompatActivity {
     int vacationID;
     EditText editTitle;
     EditText editHotel;
     TextView editStartDate;
     TextView editEndDate;
     Repository repository;
-    Product currentVacation;
+    Vacation currentVacation;
 
     final Calendar calStart = Calendar.getInstance();
     final Calendar calEnd = Calendar.getInstance();
@@ -87,7 +87,7 @@ public class ProductDetails extends AppCompatActivity {
             if (!info.isEmpty()) {
                 try { calStart.setTime(sdf.parse(info)); } catch (ParseException e) { e.printStackTrace(); }
             }
-            new DatePickerDialog(ProductDetails.this, startListener,
+            new DatePickerDialog(VacationDetails.this, startListener,
                     calStart.get(Calendar.YEAR), calStart.get(Calendar.MONTH),
                     calStart.get(Calendar.DAY_OF_MONTH)).show();
         });
@@ -97,21 +97,21 @@ public class ProductDetails extends AppCompatActivity {
             if (!info.isEmpty()) {
                 try { calEnd.setTime(sdf.parse(info)); } catch (ParseException e) { e.printStackTrace(); }
             }
-            new DatePickerDialog(ProductDetails.this, endListener,
+            new DatePickerDialog(VacationDetails.this, endListener,
                     calEnd.get(Calendar.YEAR), calEnd.get(Calendar.MONTH),
                     calEnd.get(Calendar.DAY_OF_MONTH)).show();
         });
 
         RecyclerView recyclerView = findViewById(R.id.partrecyclerview);
-        final PartAdapter partAdapter = new PartAdapter(this,
+        final ExcursionAdapter excursionAdapter = new ExcursionAdapter(this,
                 editStartDate.getText().toString(), editEndDate.getText().toString());
-        recyclerView.setAdapter(partAdapter);
+        recyclerView.setAdapter(excursionAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        List<Part> filteredExcursions = new ArrayList<>();
-        for (Part p : repository.getAllExcursions()) {
-            if (p.getVacationID() == vacationID) filteredExcursions.add(p);
+        List<Excursion> filteredExcursions = new ArrayList<>();
+        for (Excursion e : repository.getAllExcursions()) {
+            if (e.getVacationID() == vacationID) filteredExcursions.add(e);
         }
-        partAdapter.setParts(filteredExcursions);
+        excursionAdapter.setExcursions(filteredExcursions);
 
         FloatingActionButton fab = findViewById(R.id.floatingActionButton2);
         fab.setOnClickListener(v -> {
@@ -119,7 +119,7 @@ public class ProductDetails extends AppCompatActivity {
                 Toast.makeText(this, "Please save the vacation before adding excursions", Toast.LENGTH_LONG).show();
                 return;
             }
-            Intent intent = new Intent(ProductDetails.this, PartDetails.class);
+            Intent intent = new Intent(VacationDetails.this, ExcursionDetails.class);
             intent.putExtra("vacationID", vacationID);
             intent.putExtra("vacationStartDate", editStartDate.getText().toString());
             intent.putExtra("vacationEndDate", editEndDate.getText().toString());
@@ -184,14 +184,14 @@ public class ProductDetails extends AppCompatActivity {
                 return true;
             }
 
-            Product vacation;
+            Vacation vacation;
             if (vacationID == -1) {
-                List<Product> all = repository.getAllVacations();
+                List<Vacation> all = repository.getAllVacations();
                 vacationID = all.isEmpty() ? 1 : all.get(all.size() - 1).getVacationID() + 1;
-                vacation = new Product(vacationID, title, hotel, startDate, endDate);
+                vacation = new Vacation(vacationID, title, hotel, startDate, endDate);
                 repository.insert(vacation);
             } else {
-                vacation = new Product(vacationID, title, hotel, startDate, endDate);
+                vacation = new Vacation(vacationID, title, hotel, startDate, endDate);
                 repository.update(vacation);
             }
             Toast.makeText(this, "Vacation saved", Toast.LENGTH_SHORT).show();
@@ -203,12 +203,12 @@ public class ProductDetails extends AppCompatActivity {
                 Toast.makeText(this, "Nothing to delete", Toast.LENGTH_SHORT).show();
                 return true;
             }
-            for (Product v : repository.getAllVacations()) {
+            for (Vacation v : repository.getAllVacations()) {
                 if (v.getVacationID() == vacationID) currentVacation = v;
             }
             int excursionCount = 0;
-            for (Part p : repository.getAllExcursions()) {
-                if (p.getVacationID() == vacationID) excursionCount++;
+            for (Excursion e : repository.getAllExcursions()) {
+                if (e.getVacationID() == vacationID) excursionCount++;
             }
             if (excursionCount > 0) {
                 Toast.makeText(this, "Cannot delete a vacation that has excursions associated with it", Toast.LENGTH_LONG).show();
@@ -227,10 +227,10 @@ public class ProductDetails extends AppCompatActivity {
             sb.append("Start Date: ").append(editStartDate.getText().toString()).append("\n");
             sb.append("End Date: ").append(editEndDate.getText().toString()).append("\n\n");
             sb.append("Excursions:\n");
-            for (Part p : repository.getAllExcursions()) {
-                if (p.getVacationID() == vacationID) {
-                    sb.append("  - ").append(p.getTitle())
-                      .append(" on ").append(p.getExcursionDate()).append("\n");
+            for (Excursion e : repository.getAllExcursions()) {
+                if (e.getVacationID() == vacationID) {
+                    sb.append("  - ").append(e.getTitle())
+                      .append(" on ").append(e.getExcursionDate()).append("\n");
                 }
             }
             Intent sendIntent = new Intent();
@@ -264,9 +264,9 @@ public class ProductDetails extends AppCompatActivity {
         try {
             sdf.setLenient(false);
             Date date = sdf.parse(dateStr);
-            Intent intent = new Intent(ProductDetails.this, MyReceiver.class);
+            Intent intent = new Intent(VacationDetails.this, MyReceiver.class);
             intent.putExtra("key", message);
-            PendingIntent sender = PendingIntent.getBroadcast(ProductDetails.this,
+            PendingIntent sender = PendingIntent.getBroadcast(VacationDetails.this,
                     ++MainActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             alarmManager.set(AlarmManager.RTC_WAKEUP, date.getTime(), sender);
@@ -280,14 +280,14 @@ public class ProductDetails extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         RecyclerView recyclerView = findViewById(R.id.partrecyclerview);
-        final PartAdapter partAdapter = new PartAdapter(this,
+        final ExcursionAdapter excursionAdapter = new ExcursionAdapter(this,
                 editStartDate.getText().toString(), editEndDate.getText().toString());
-        recyclerView.setAdapter(partAdapter);
+        recyclerView.setAdapter(excursionAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        List<Part> filteredExcursions = new ArrayList<>();
-        for (Part p : repository.getAllExcursions()) {
-            if (p.getVacationID() == vacationID) filteredExcursions.add(p);
+        List<Excursion> filteredExcursions = new ArrayList<>();
+        for (Excursion e : repository.getAllExcursions()) {
+            if (e.getVacationID() == vacationID) filteredExcursions.add(e);
         }
-        partAdapter.setParts(filteredExcursions);
+        excursionAdapter.setExcursions(filteredExcursions);
     }
 }

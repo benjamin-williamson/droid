@@ -1,4 +1,4 @@
-package net.decusatis.mybicycleshopflaming.Activities;
+package net.decusatis.vacationscheduler.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,13 +11,13 @@ import android.view.MenuItem;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import net.decusatis.mybicycleshopflaming.Database.Repository;
-import net.decusatis.mybicycleshopflaming.Entities.Product;
-import net.decusatis.mybicycleshopflaming.R;
+import net.decusatis.vacationscheduler.Database.Repository;
+import net.decusatis.vacationscheduler.Entities.Vacation;
+import net.decusatis.vacationscheduler.R;
 
 import java.util.List;
 
-public class ProductList extends AppCompatActivity {
+public class VacationList extends AppCompatActivity {
     private Repository repository;
 
     @Override
@@ -27,7 +27,7 @@ public class ProductList extends AppCompatActivity {
 
         FloatingActionButton fab = findViewById(R.id.floatingActionButton);
         fab.setOnClickListener(view -> {
-            Intent intent = new Intent(ProductList.this, ProductDetails.class);
+            Intent intent = new Intent(VacationList.this, VacationDetails.class);
             startActivity(intent);
         });
 
@@ -36,12 +36,12 @@ public class ProductList extends AppCompatActivity {
     }
 
     private void loadVacations() {
-        List<Product> allVacations = repository.getAllVacations();
+        List<Vacation> allVacations = repository.getAllVacations();
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
-        final ProductAdapter productAdapter = new ProductAdapter(this);
-        recyclerView.setAdapter(productAdapter);
+        final VacationAdapter vacationAdapter = new VacationAdapter(this);
+        recyclerView.setAdapter(vacationAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        productAdapter.setProducts(allVacations);
+        vacationAdapter.setVacations(allVacations);
     }
 
     @Override

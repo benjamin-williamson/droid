@@ -1,4 +1,4 @@
-package net.decusatis.mybicycleshopflaming.Activities;
+package net.decusatis.vacationscheduler.Activities;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 
-import net.decusatis.mybicycleshopflaming.R;
+import net.decusatis.vacationscheduler.R;
 
 public class MyReceiver extends BroadcastReceiver {
     String channel_id = "test";
@@ -25,13 +25,10 @@ public class MyReceiver extends BroadcastReceiver {
         Notification n = new NotificationCompat.Builder(context, channel_id)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentText(intent.getStringExtra("key"))
-                .setContentTitle("NotifcationTest").build();
+                .setContentTitle("Vacation Scheduler Alert").build();
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
         notificationManager.notify(notificationID++, n);
     }
-    // TODO: This method is called when the BroadcastReceiver is receiving
-    // an Intent broadcast.
-
 
     private void createNotificationChannel(Context context, String CHANNEL_ID) {
         CharSequence name = context.getResources().getString(R.string.channel_name);
@@ -39,8 +36,6 @@ public class MyReceiver extends BroadcastReceiver {
         int importance = NotificationManager.IMPORTANCE_DEFAULT;
         NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
         channel.setDescription(description);
-        // Register the channel with the system; you can't change the importance
-        // or other notification behaviors after this
         NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
         notificationManager.createNotificationChannel(channel);
     }

@@ -1,4 +1,4 @@
-package net.decusatis.mybicycleshopflaming;
+package net.decusatis.vacationscheduler;
 
 import org.junit.Test;
 

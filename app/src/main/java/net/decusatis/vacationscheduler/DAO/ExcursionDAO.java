@@ -1,4 +1,4 @@
-package net.decusatis.mybicycleshopflaming.DAO;
+package net.decusatis.vacationscheduler.DAO;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -7,21 +7,21 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import net.decusatis.mybicycleshopflaming.Entities.Part;
+import net.decusatis.vacationscheduler.Entities.Excursion;
 
 import java.util.List;
 
 @Dao
-public interface PartDAO {
+public interface ExcursionDAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insert(Part excursion);
+    void insert(Excursion excursion);
 
     @Update
-    void update(Part excursion);
+    void update(Excursion excursion);
 
     @Delete
-    void delete(Part excursion);
+    void delete(Excursion excursion);
 
     @Query("SELECT * FROM excursions ORDER BY excursionID ASC")
-    List<Part> getAllExcursions();
+    List<Excursion> getAllExcursions();
 }

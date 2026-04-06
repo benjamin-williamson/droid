@@ -1,10 +1,10 @@
-package net.decusatis.mybicycleshopflaming.Entities;
+package net.decusatis.vacationscheduler.Entities;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "vacations")
-public class Product {
+public class Vacation {
     @PrimaryKey(autoGenerate = true)
     private int vacationID;
 
@@ -13,7 +13,7 @@ public class Product {
     private String startDate;
     private String endDate;
 
-    public Product(int vacationID, String title, String hotel, String startDate, String endDate) {
+    public Vacation(int vacationID, String title, String hotel, String startDate, String endDate) {
         this.vacationID = vacationID;
         this.title = title;
         this.hotel = hotel;

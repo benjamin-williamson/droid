@@ -3,15 +3,15 @@ plugins {
 }
 
 android {
-    namespace 'net.decusatis.mybicycleshopflaming'
+    namespace 'net.decusatis.vacationscheduler'
     compileSdk 33
 
     defaultConfig {
-        applicationId "net.decusatis.mybicycleshopflaming"
+        applicationId "net.decusatis.vacationscheduler"
         minSdk 26
         targetSdk 33
         versionCode 5
-        versionName "My Bicycle Shop Flamingo"
+        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
