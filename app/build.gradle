@@ -7,7 +7,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "net.decusatis.vacationscheduler"
+        applicationId "net.decusatis.mybicycleshopflaming"
         minSdk 26
         targetSdk 33
         versionCode 5
